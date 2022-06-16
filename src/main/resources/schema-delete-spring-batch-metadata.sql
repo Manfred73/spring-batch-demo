@@ -1,0 +1,7 @@
+-- See https://github.com/spring-projects/spring-batch/tree/main/spring-batch-core/src/main/resources/org/springframework/batch/core
+DELETE FROM BATCH_STEP_EXECUTION_CONTEXT;
+DELETE FROM BATCH_STEP_EXECUTION;
+DELETE FROM BATCH_JOB_EXECUTION_CONTEXT;
+DELETE FROM BATCH_JOB_EXECUTION_PARAMS;
+DELETE FROM BATCH_JOB_EXECUTION;
+DELETE FROM BATCH_JOB_INSTANCE;

@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: contactsprocessor
+  description: 'Service for reading and processing contactsfile.'
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/batchjob'
+paths:
+  '/run':
+    get:
+      summary: 'Starts the batchjob to read and process contacts'
+      responses:
+        '200':
+          description: 'Starts batchjob'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batchjob'
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  responses:
+    UnauthorizedError:
+      description: API key is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+  schemas:
+    Batchjob:
+      type: object
+      properties:
+        batchjobId:
+          type: number
+security:
+  - ApiKeyAuth: []

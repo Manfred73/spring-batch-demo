@@ -1,0 +1,14 @@
+###
+GET http://localhost:8080/batchjob/run
+Accept: application/json
+apikey: <api_key_here>
+
+###
+GET http://localhost:8080/batchjob/removejobexecutions
+Accept: application/json
+apikey: <api_key_here>
+
+###
+GET http://localhost:8080/actuator
+Accept: application/json
+apikey: <api_key_here>

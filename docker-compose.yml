@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+
+  contactsprocessor:
+    image: contactsprocessor
+    build: .
+    hostname: contactsprocessor
+    container_name: contactsprocessor
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - contacts-network
+    depends_on:
+      #contacts
+      db:
+          condition: service_healthy
+    env_file:
+      - ./.env_contactprocessor
+
+  #contacts:
+  #  image: contacts
+  #  #build: ./contacts
+  #  hostname: contacts
+  #  container_name: contacts
+  #  ports:
+  #    - "8081:8081"
+  #  restart: always
+  #  networks:
+  #    - contacts-network
+  #  env_file:
+  #    - ./.env_contacts
+
+  db:
+    image: postgres
+    hostname: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env_postgres
+    networks:
+      - contacts-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db:/var/lib/postgresql/data
+
+networks:
+  contacts-network:
+
+volumes:
+  db:
+    driver: local

@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+processingcontactsjob:
+  chunkSize: 1
+  async:
+    thread:
+      corePoolSize: 24
+      maxPoolSize: 24
+      queueCapacity: 20
+spring:
+  sql:
+    init:
+      platform: postgres
+  datasource:
+    driverClassName: org.postgresql.Driver
+  batch:
+    job:
+      # Disable batch auto-start
+      enabled: false
+    jdbc:
+      initialize-schema: always
+
+security:
+  apikey: ${CONTACTSPROCESSOR_APIKEY}
+
+contactsclient:
+  baseUrl: ${CONTACTS_BASEURL:http://localhost:8081/v2/contacts}
+  apikey: ${CONTACTS_APIKEY}
