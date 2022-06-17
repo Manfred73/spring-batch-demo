@@ -4,6 +4,7 @@ services:
 
   contactsprocessor:
     image: contactsprocessor
+    build: .
     hostname: contactsprocessor
     container_name: contactsprocessor
     ports:
@@ -12,7 +13,6 @@ services:
     networks:
       - contacts-network
     depends_on:
-      contacts
       contactsprocessor_db:
           condition: service_healthy
     env_file:
@@ -20,8 +20,7 @@ services:
 
   contactsprocessor_db:
     image: postgres
-    hostname: postgres
-    container_name: postgres
+    container_name: contactsprocessor_db
     ports:
       - "3000:5432"
     env_file:
