@@ -28,20 +28,18 @@ import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBatchTest
 @ExtendWith(SpringExtension.class)
 class ContactsSpringBatchIntegrationTest extends BaseIntegrationTest {
 
-    private static final String RESOURCE_PATH_V2_CONTACTS = "/v2/contacts";
+    private static final String RESOURCE_PATH_CONTACTS = "/contacts";
     private static final String RESOURCE_PATH_BATCHJOB = "/batchjob";
     private static final String HEADER_NAME_APIKEY = "apikey";
-    private static final String API_KEY_VALUE_CONTACTS_PROCESSOR = "dummyContactsProcessorApikey";
-    private static final String API_KEY_VALUE_CONTACTS = "dummyContactsApikey";
+    private static final String APIKEY_VALUE_CONTACTSPROCESSOR = "dummyContactsProcessorApikey";
+    private static final String APIKEY_VALUE_CONTACTS = "dummyContactsApikey";
     private static final String HEADER_CONTENT_TYPE = "Content-type";
     private static final String DATE_CONTEXT_KEY = "date";
     private static final String FILE_NAME_CONTEXT_KEY = "filename";
@@ -93,7 +91,7 @@ class ContactsSpringBatchIntegrationTest extends BaseIntegrationTest {
         webTestClient
                 .get()
                 .uri(RESOURCE_PATH_BATCHJOB + "/run")
-                .header(HEADER_NAME_APIKEY, API_KEY_VALUE_CONTACTS_PROCESSOR)
+                .header(HEADER_NAME_APIKEY, APIKEY_VALUE_CONTACTSPROCESSOR)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().is2xxSuccessful()
@@ -101,7 +99,7 @@ class ContactsSpringBatchIntegrationTest extends BaseIntegrationTest {
                 .value(batchjob -> assertThat(batchjob.getBatchjobId()).isNotNull());
 
         // THEN
-        verify(5, postRequestedFor(urlEqualTo(RESOURCE_PATH_V2_CONTACTS)));
+        verify(5, postRequestedFor(urlEqualTo(RESOURCE_PATH_CONTACTS)));
     }
 
     /**
@@ -129,13 +127,13 @@ class ContactsSpringBatchIntegrationTest extends BaseIntegrationTest {
         // THEN
         assertThat(actualJobInstance.getJobName()).isEqualTo("processingContacts");
         assertThat(actualJobExitStatus.getExitCode()).isEqualTo("COMPLETED");
-        verify(4, postRequestedFor(urlEqualTo(RESOURCE_PATH_V2_CONTACTS)));
+        verify(4, postRequestedFor(urlEqualTo(RESOURCE_PATH_CONTACTS)));
     }
 
     private void stubMockForContactsPost() {
         stubFor(
-                post(urlPathMatching(RESOURCE_PATH_V2_CONTACTS))
-                        .withHeader(HEADER_NAME_APIKEY, matching(API_KEY_VALUE_CONTACTS))
+                post(urlPathMatching(RESOURCE_PATH_CONTACTS))
+                        .withHeader(HEADER_NAME_APIKEY, matching(APIKEY_VALUE_CONTACTS))
                         .willReturn(
                                 aResponse()
                                         .withHeader(HEADER_CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

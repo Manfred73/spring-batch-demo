@@ -30,9 +30,7 @@ public class ContactsTestdataSupplier {
 	public static final String IBAN = "GB98MIDL07009312345678";
 	public static final String SOCIAL_SECURITY_NUMBER = "408-03-7262";
 	public static final LocalDate DATE_OF_DEATH = LocalDate.of(2018, 4, 10);
-	public static final String DATE_OF_DEATH_STRING = "10042018";
 	public static final LocalDate DATE_OF_BIRTH = LocalDate.of(1946, 1, 1);
-	public static final String DATE_OF_BIRTH_STRING = "01011946";
 
 	public static Contact createContact() {
 		return Contact.builder()

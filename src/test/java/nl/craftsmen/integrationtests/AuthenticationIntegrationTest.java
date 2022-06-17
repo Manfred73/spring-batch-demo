@@ -7,18 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = { AuthenticationIntegrationTest.API_KEY_DUMMY })
-class AuthenticationIntegrationTest {
-
-	static final String API_KEY_DUMMY = "CONTACTSPROCESSOR_APIKEY=apiKeyDummy";
+class AuthenticationIntegrationTest extends BaseIntegrationTest {
 
 	private static final String HEADER_NAME_APIKEY = "apikey";
-	private static final String VALID_API_KEY_VALUE = "apiKeyDummy";
-	private static final String INVALID_API_KEY = "letsTryEvilHackerApiKey";
+	private static final String VALID_APIKEY_VALUE = "dummyContactsProcessorApikey";
+	private static final String INVALID_APIKEY = "letsTryEvilHackerApiKey";
 
 	@Autowired
 	private WebTestClient webTestClient;
@@ -29,7 +25,7 @@ class AuthenticationIntegrationTest {
 	void expect_200_response_when_apikey_is_valid() {
 		webTestClient.get()
 				.uri(getUriForRunningBatchjob())
-				.header(HEADER_NAME_APIKEY, VALID_API_KEY_VALUE)
+				.header(HEADER_NAME_APIKEY, VALID_APIKEY_VALUE)
 				.accept(MediaType.APPLICATION_JSON)
 				.exchange()
 				.expectStatus().isOk();
@@ -41,7 +37,7 @@ class AuthenticationIntegrationTest {
 	void expect_403_response_when_apikey_is_invalid() {
 		webTestClient.get()
 				.uri(RESOURCE_PATH)
-				.header(HEADER_NAME_APIKEY, INVALID_API_KEY)
+				.header(HEADER_NAME_APIKEY, INVALID_APIKEY)
 				.accept(MediaType.APPLICATION_JSON)
 				.exchange()
 				.expectStatus().isForbidden();

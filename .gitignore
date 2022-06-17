@@ -36,4 +36,4 @@ package-lock.json
 devfile.yaml
 
 #Env script to set secrets and variables
-.env*
+#.env*

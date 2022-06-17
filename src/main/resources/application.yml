@@ -25,5 +25,5 @@ security:
   apikey: ${CONTACTSPROCESSOR_APIKEY}
 
 contactsclient:
-  baseUrl: ${CONTACTS_BASEURL:http://localhost:8081/v2/contacts}
+  baseUrl: ${CONTACTS_BASEURL:http://localhost:8081/contacts}
   apikey: ${CONTACTS_APIKEY}

@@ -21,8 +21,6 @@ public class SecurityConfig {
 			// -- Swagger UI v3 (OpenAPI)
 			"/v3/api-docs/**",
 			"/swagger-ui/**",
-			// H2 public endpoints
-			"/h2-console/**",
 			// Actuator public endpoints
 			"/actuator/**"
 	};

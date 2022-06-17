@@ -18,33 +18,32 @@ import org.testcontainers.utility.DockerImageName;
 		// Usually users, passwords and apikeys are read from the environment.
 		// For the integrationtest we specify dummy values.
 		"security.apikey=dummyContactsProcessorApikey",
-		"contactsclient.baseUrl=http://localhost:${wiremock.server.port}/v2/contacts",
+		"contactsclient.baseUrl=http://localhost:${wiremock.server.port}/contacts",
 		"contactsclient.apikey=dummyContactsApikey"
 })
 @AutoConfigureWebTestClient(timeout = "36000")
 @AutoConfigureWireMock(port = 0)
 @Testcontainers
-@ActiveProfiles("integrationtest")
+@SuppressWarnings("rawtypes")
 abstract class BaseIntegrationTest {
 
 	@Autowired
 	protected WebTestClient webTestClient;
 
-	@SuppressWarnings("rawtypes")
-	public static PostgreSQLContainer postgreSQL =
-			new PostgreSQLContainer("postgres:14.3")
-					.withUsername("postgres")
-					.withPassword("postgres")
-					.withDatabaseName("postgres");
+	static final PostgreSQLContainer POSTGRESQL;
 
 	static {
-		postgreSQL.start();
+		POSTGRESQL = new PostgreSQLContainer("postgres:14.3")
+				.withUsername("postgres")
+				.withPassword("postgres")
+				.withDatabaseName("contactsprocessor");
+		POSTGRESQL.start();
 	}
 
 	@DynamicPropertySource
 	static void postgresqlProperties(DynamicPropertyRegistry registry) {
-		registry.add("spring.datasource.url", postgreSQL::getJdbcUrl);
-		registry.add("spring.datasource.username", postgreSQL::getUsername);
-		registry.add("spring.datasource.password", postgreSQL::getPassword);
+		registry.add("spring.datasource.url", POSTGRESQL::getJdbcUrl);
+		registry.add("spring.datasource.username", POSTGRESQL::getUsername);
+		registry.add("spring.datasource.password", POSTGRESQL::getPassword);
 	}
 }

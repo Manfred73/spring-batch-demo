@@ -6,7 +6,7 @@
     <groupId>nl.craftsmen</groupId>
     <artifactId>contactsprocessor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-batch-demo</name>
+    <name>contactsprocessor spring-batch-demo</name>
     <description>contactsprocessor</description>
 
     <properties>
@@ -24,18 +24,13 @@
         <!-- Spring versions -->
         <spring-boot.version>2.6.7</spring-boot.version>
 
-        <!-- Other dependency versions -->
-        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
-        <version.restrict-imports-enforcer-rule>1.3.0</version.restrict-imports-enforcer-rule>
-
         <!-- Spring versions -->
         <spring-cloud.version>3.1.0</spring-cloud.version>
 
         <!-- Other dependency versions -->
-        <!-- Newer version of lombok  than the one that comes with spring-dependencies: this version contains @StandarException -->
-        <version.lombok>1.18.22</version.lombok>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.commons-collections4>4.4</version.commons-collections4>
-        <version.slf4j-mock>2.2.0</version.slf4j-mock>
+
         <!-- FIXME: De huidige versie van Spring Boot (2.6.7) komt met Logback versie 1.2.11
                Deze zorgt voor NullPointerException errors in oaa-borgenbericht -->
         <version.logback>1.2.10</version.logback>
@@ -46,20 +41,15 @@
         <version.surefire.plugin>2.22.2</version.surefire.plugin>
         <version.failsafe.plugin>2.22.2</version.failsafe.plugin>
         <version.jacoco.plugin>0.8.8</version.jacoco.plugin>
-
-        <!--  Test versions -->
         <version.equalsverifier>3.7.2</version.equalsverifier>
         <version.reactor-test>3.4.12</version.reactor-test>
         <version.fest-reflect>1.4.1</version.fest-reflect>
+		<spring-cloud.version>3.1.0</spring-cloud.version>
         <testcontainers.version>1.17.2</testcontainers.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!--
-                This could be set as a parent, but if you already have another parent, like a company parent pom,
-                you can define the spring-boot-dependencies as an import.
-            -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -79,6 +69,7 @@
     </dependencyManagement>
 
     <dependencies>
+
         <!-- Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -206,14 +197,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Test: Spring Cloud -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-contract-wiremock</artifactId>
-            <version>${spring-cloud.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Test: junit -->
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -302,6 +285,14 @@
             <scope>test</scope>
         </dependency>
 
+		<!-- Test: wiremock -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-contract-wiremock</artifactId>
+			<version>${spring-cloud.version}</version>
+			<scope>test</scope>
+		</dependency>
+
         <!--
             See:
             - https://fullstackcode.dev/2021/05/16/springboot-integration-testing-with-testcontainers/
@@ -331,6 +322,7 @@
         </resources>
 
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -356,7 +348,7 @@
                         <include>**/AllTests.java</include>
                     </includes>
                     <excludes>
-                        <exclude>**/integration/*.java</exclude>
+                        <exclude>**/integrationtests/*.java</exclude>
                         <exclude>**/*IntegrationTest.java</exclude>
                         <exclude>**/*IgnoreAutoTest.java</exclude>
                     </excludes>
@@ -458,13 +450,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>de.skuzzle.enforcer</groupId>
-                        <artifactId>restrict-imports-enforcer-rule</artifactId>
-                        <version>${version.restrict-imports-enforcer-rule}</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <id>check-junit4-imports</id>
@@ -506,6 +491,7 @@
     </build>
 
     <profiles>
+
         <profile>
             <id>integration-tests</id>
             <properties>
@@ -537,7 +523,7 @@
                                 <include>**/*IT.java</include>
                                 <include>**/IT*.java</include>
                                 <include>**/*ITCase.java</include>
-                                <include>**/integration/*.java</include>
+                                <include>**/integrationtests/*.java</include>
                                 <include>**/*IntegrationTest.java</include>
                             </includes>
                             <excludes>
@@ -548,6 +534,7 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 
 </project>

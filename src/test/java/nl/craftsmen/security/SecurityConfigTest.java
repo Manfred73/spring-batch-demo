@@ -24,7 +24,7 @@ import org.springframework.security.web.server.authentication.ServerAuthenticati
 @ExtendWith(MockitoExtension.class)
 class SecurityConfigTest {
 
-	private static final String[] FILTER_IGNORE = { "/v3/api-docs/**", "/swagger-ui/**", "/h2-console/**", "/actuator/**" };
+	private static final String[] FILTER_IGNORE = { "/v3/api-docs/**", "/swagger-ui/**", "/actuator/**" };
 
 	@Mock
 	private ServerHttpSecurity serverHttpSecurity;
