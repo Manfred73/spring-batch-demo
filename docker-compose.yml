@@ -4,7 +4,6 @@ services:
 
   contactsprocessor:
     image: contactsprocessor
-    build: .
     hostname: contactsprocessor
     container_name: contactsprocessor
     ports:
@@ -13,31 +12,18 @@ services:
     networks:
       - contacts-network
     depends_on:
-      #contacts
-      db:
+      contacts
+      contactsprocessor_db:
           condition: service_healthy
     env_file:
-      - ./.env_contactprocessor
+      - .env_contactsprocessor
 
-  #contacts:
-  #  image: contacts
-  #  #build: ./contacts
-  #  hostname: contacts
-  #  container_name: contacts
-  #  ports:
-  #    - "8081:8081"
-  #  restart: always
-  #  networks:
-  #    - contacts-network
-  #  env_file:
-  #    - ./.env_contacts
-
-  db:
+  contactsprocessor_db:
     image: postgres
     hostname: postgres
     container_name: postgres
     ports:
-      - "5432:5432"
+      - "3000:5432"
     env_file:
       - ./.env_postgres
     networks:
@@ -48,11 +34,11 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - db:/var/lib/postgresql/data
+      - contactsprocessor_db:/var/lib/postgresql/data
 
 networks:
   contacts-network:
 
 volumes:
-  db:
+  contactsprocessor_db:
     driver: local
