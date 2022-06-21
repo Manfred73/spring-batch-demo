@@ -9,7 +9,6 @@ import nl.craftsmen.contact.job.writer.AsyncContactsWriterConfig;
 import nl.craftsmen.contact.model.ContactWrapper;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemStreamReader;
@@ -28,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @AllArgsConstructor
-@EnableBatchProcessing
 public class ProcessContacts {
 
 	private final JobBuilderFactory jobBuilderFactory;

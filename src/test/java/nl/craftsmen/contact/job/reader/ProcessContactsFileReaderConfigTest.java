@@ -23,14 +23,17 @@ class ProcessContactsFileReaderConfigTest {
 	private SkipRecordCallback skipRecordCallback;
 
 	@Mock
+	private LineTokenizer lineTokenizer;
+
+	@Mock
 	private ContactsFileRowMapper contactsFileRowMapper;
 
 	@Test
 	@DisplayName("When contactReader has been called, I expect a configured ContactReader to be returned")
-	void contactReaderExpectAGeconfiguredReaderToBeReturned() {
+	void contactReaderExpectAConfiguredReaderToBeReturned() {
 		// GIVEN
 		final var filename = "testfile.txt";
-		final var cut = new ProcessContactsFileReaderConfig(skipRecordCallback, contactsFileRowMapper);
+		final var cut = new ProcessContactsFileReaderConfig(skipRecordCallback, lineTokenizer, contactsFileRowMapper);
 
 		// WHEN
 		final var reader = cut.contactReader(filename);
@@ -40,20 +43,14 @@ class ProcessContactsFileReaderConfigTest {
 		final var linesToSkip = field("linesToSkip").ofType(int.class).in(reader).get();
 		final var skippedLinesCallback = field("skippedLinesCallback").ofType(LineCallbackHandler.class).in(reader).get();
 		final var lineMapper = field("lineMapper").ofType(LineMapper.class).in(reader).get();
-		final var fieldSetMapper = field("fieldSetMapper").ofType(FieldSetMapper.class).in(lineMapper).get();
 		final var lineTokenizer = field("tokenizer").ofType(LineTokenizer.class).in(lineMapper).get();
-		final var lineTokenizerNames = field("names").ofType(String[].class).in(lineTokenizer).get();
-		final var lineTokenizerColumns = field("ranges").ofType(Range[].class).in(lineTokenizer).get();
-		final var lineTokenizerIsStrict = field("strict").ofType(boolean.class).in(lineTokenizer).get();
+		final var fieldSetMapper = field("fieldSetMapper").ofType(FieldSetMapper.class).in(lineMapper).get();
 		assertThat(reader).isInstanceOf(FlatFileItemReader.class);
 		assertThat(resource.getFilename()).isEqualTo(filename);
 		assertThat(linesToSkip).isEqualTo(1);
 		assertThat(skippedLinesCallback).isEqualTo(skipRecordCallback);
 		assertThat(lineMapper).isNotNull();
-		assertThat(lineTokenizer).isNotNull();
+		assertThat(lineTokenizer).isEqualTo(this.lineTokenizer);
 		assertThat(fieldSetMapper).isEqualTo(contactsFileRowMapper);
-		assertThat(lineTokenizerNames).isEqualTo(Fieldnames.getFieldnames());
-		assertThat(lineTokenizerColumns).isNotEmpty();
-		assertThat(lineTokenizerIsStrict).isFalse();
 	}
 }

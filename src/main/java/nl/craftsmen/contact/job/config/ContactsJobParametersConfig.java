@@ -13,7 +13,7 @@ public class ContactsJobParametersConfig {
 	private static final String FILE_NAME_CONTEXT_KEY = "filename";
 
 	/**
-	 * For demo purpuses this is now a static file from src/main/resources.
+	 * For demo purposes this is now a static file from src/main/resources.
 	 */
 	private static final String FILE_TO_PROCESS = "contacts.txt";
 

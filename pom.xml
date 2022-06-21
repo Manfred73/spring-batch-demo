@@ -142,7 +142,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Necessary for Spring Batch. -->
+        <!-- Necessary for Spring Batch if you want to schedule a batchjob -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
